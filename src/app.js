@@ -1,30 +1,14 @@
 const express = require("express");
 const bookRoutes = require("./routes/bookRoutes");
-
+const authRoutes = require("./routes/authRoutes");
+const profileRoutes = require("./routes/profileRoutes");
 const app = express();
+const tokenRoutes = require("./routes/tokenRoutes");
 
-// Middleware JSON
 app.use(express.json());
-
-// Routes
+app.use("/profile", profileRoutes);
 app.use("/books", bookRoutes);
-
-// 404 Handler
-app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: "Endpoint not found"
-  });
-});
-
-// Global Error Handler
-app.use((err, req, res, next) => {
-  console.error(err);
-
-  res.status(500).json({
-    success: false,
-    message: "Internal Server Error"
-  });
-});
+app.use("/auth", authRoutes);
+app.use("/token",tokenRoutes);
 
 module.exports = app;
